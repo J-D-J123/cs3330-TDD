@@ -1,0 +1,19 @@
+# Folders ======= 
+
+# settings
+.settings/
+
+# classpaths 
+.classpath/
+
+# project 
+.project/
+
+
+# Files =========
+
+.settings
+.project 
+.projects 
+.classpath
+.classpaths

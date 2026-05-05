@@ -66,32 +66,6 @@ ANS: ● Let me explore your project structure to understand the current setup.
 
   Everything is configured correctly — you just need to populate src/main/java with the matching implementation classes.
   
-2. When i load this into elcipse on the cs3330-TDD from the repo all i see under that folder is just all the packages is that normal? or should i still see src/test/java & src/main/java
-ANS: 
-● Let me take a look at your project structure first.
+2. 
 
-  Searched for 2 patterns, read 1 file, listed 2 directories (ctrl+o to expand)
 
-● That's your issue. It's not quite normal — here's what's happening:
-
-  Your project has src/test/java and src/main/java in the repo (the files are there), but Eclipse is not showing the Maven source folder layout because the .classpath file is missing.
-                                                                                                                                                                                                                                                                                                                               Eclipse needs two files to understand a Maven project properly:                                                                                                                                                                                                                                                              - .project — present (and correct, it has the Maven nature)                                                                                                                                                                                                                                                                  - .classpath — missing — this tells Eclipse where src/main/java, src/test/java, etc. are                                                                                                                                                                                                                                   
-  Without .classpath, Eclipse falls back to just showing raw packages, which is what you're seeing.
-
-  How to fix it:
-
-  The cleanest way is to let Eclipse regenerate both files via Maven:
-
-  1. Right-click the project in Eclipse's Package Explorer
-  2. Go to Maven > Update Project... (or press Alt+F5)
-  3. Check "Force Update of Snapshots/Releases"
-  4. Click OK
-
-  Eclipse's M2E plugin will re-read pom.xml and regenerate the .classpath, which will properly configure src/main/java and src/test/java as source folders.
-
-  After that you should see the standard Maven layout with the separate source folders.
-
-✻ Crunched for 30s
-
-3. Well i acidently deleted the class path and the project folder so go back on the commit history and bring them back please and adjust the gitignore to not ignore them please 
-ANS: 

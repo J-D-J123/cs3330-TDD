@@ -1,7 +1,0 @@
-Prompts: 
-Model
-
-1. Please Review my setup and verify if this is correct for Junit tests cases or the test cases if I add java files to the src/main/java folder sturcutre  
-
-
-

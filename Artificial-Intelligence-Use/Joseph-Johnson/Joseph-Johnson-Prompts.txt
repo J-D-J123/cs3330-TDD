@@ -1,0 +1,71 @@
+Prompts: 
+Model: Claude Code (Sonnet 4.6)
+
+1. Please Review my setup and verify if this is correct for Junit tests cases or the test cases if I add java files to the src/main/java folder sturcutre  
+ANS: ● Let me explore your project structure to understand the current setup.
+
+  Searched for 1 pattern, read 6 files, listed 1 directory (ctrl+o to expand)
+
+● Your setup is correct for JUnit 5. Here's a full breakdown:
+
+  ---
+  Setup Verification
+                                                                                                                                                                                                                                                                                                                               Maven Project Structure — Correct
+                                                                                                                                                                                                                                                                                                                               src/
+    main/java/          ← your implementation files go here (currently empty)
+    test/java/          ← your test files (10 test classes already present)
+
+  pom.xml — Correct
+
+  ┌────────────────┬────────┬────────────────────────────────────────────┐
+  │ Configuration  │ Value  │                   Status                   │
+  ├────────────────┼────────┼────────────────────────────────────────────┤
+  │ Java version   │ 17     │ Good                                       │
+  ├────────────────┼────────┼────────────────────────────────────────────┤
+  │ JUnit Jupiter  │ 5.10.2 │ Good (JUnit 5)                             │
+  ├────────────────┼────────┼────────────────────────────────────────────┤
+  │ Maven Surefire │ 3.2.5  │ Good (required for JUnit 5 auto-detection) │
+  ├────────────────┼────────┼────────────────────────────────────────────┤
+  │ JaCoCo         │ 0.8.12 │ Good                                       │
+  └────────────────┴────────┴────────────────────────────────────────────┘
+
+  JaCoCo Coverage Requirement — Strict
+
+  The pom.xml requires 100% line and instruction coverage (<minimum>1.00</minimum>). mvn verify will fail if any production code in src/main/java is not exercised by the tests.
+
+  ---
+  Adding Implementation Files
+
+  Your source files must mirror the test package structure. Based on the 10 test files, you need these packages under src/main/java/edu/oop/guild/:
+
+  ┌───────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │    Package    │                                    Classes/Interfaces Needed                                     │
+  ├───────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ creature/     │ Creature (interface/abstract), CloudDragon, TunnelMole                                           │
+  ├───────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ model/        │ DeliveryRequest, PackageType (enum), RealmType (enum)                                            │
+  ├───────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ factory/      │ RealmFactory, SkyRealmFactory, UndergroundRealmFactory, RealmFactoryProvider                     │
+  ├───────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ seal/         │ SkyRibbonSeal, GlowStoneSeal                                                                     │
+  ├───────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ strategy/     │ DeliveryCostStrategy, StandardDeliveryStrategy, ExpressDeliveryStrategy, CarefulDeliveryStrategy │
+  ├───────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ log/          │ Whatever GuildLogTest expects                                                                    │
+  ├───────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ notification/ │ Whatever NotificationAdapterTest expects                                                         │
+  ├───────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ service/      │ Whatever DeliveryPlannerTest expects                                                             │
+  └───────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+  ---
+  To Run Tests
+
+  mvn test           # compile + run tests
+  mvn verify         # run tests + enforce 100% coverage
+
+  Everything is configured correctly — you just need to populate src/main/java with the matching implementation classes.
+  
+2. 
+
+

@@ -6,16 +6,16 @@ import edu.oop.guild.model.PackageType;
 import java.util.Map;
 import java.util.Objects;
 
-public class ExpressDeliveryStrategy implements DeliveryCostStrategy {
+public class StandardDeliveryStrategy implements DeliveryCostStrategy {
     private static final Map<PackageType, Integer> BASES = Map.of(
-            PackageType.FOOD, 34,
-            PackageType.POTION, 39,
-            PackageType.ARTIFACT, 51
+            PackageType.FOOD, 17,
+            PackageType.POTION, 22,
+            PackageType.ARTIFACT, 34
     );
 
     @Override
     public int estimateCoins(DeliveryRequest request) {
         Objects.requireNonNull(request);
-        return request.getDistanceLeagues() * 2 + BASES.get(request.getPackageType()) + (request.isFragile() ? 10 : 0);
+        return request.getDistanceLeagues() + BASES.get(request.getPackageType()) + (request.isFragile() ? 5 : 0);
     }
 }

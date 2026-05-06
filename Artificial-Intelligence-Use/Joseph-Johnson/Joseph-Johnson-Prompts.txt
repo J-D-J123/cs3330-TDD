@@ -248,3 +248,19 @@ ANS: Here are exactly the source files changed (excluding target/ build artifact
      … +15 lines (ctrl+o to expand)
 
 ● Committed as abedc77. The 22 source files are now on main — the target/ build artifacts and the AI prompts file were intentionally left out of the commit.
+
+8.Revert to what i had do not make the java files for me let me hand code them by looking at the past history 8.
+  Revert to what i had do not make the java files for me let me hand code them by looking at the past history like get
+  rid of the edu.oop.guild.creature seal and factory and get rid of dragons , moles , etc.... and get rid of services
+  log singleton and notificiation please.
+ANS:  Done. All the generated files have been removed. What's left is only:
+
+  Main:                                                                                                                   - model/ — DeliveryPlan, DeliveryRequest, EnumLabel, PackageType, RealmType
+  - strategy/ — DeliveryCostStrategy, CarefulDeliveryStrategy, ExpressDeliveryStrategy, StandardDeliveryStrategy          - testfile.java
+
+  Test:
+  - model/ — DeliveryPlanTest, DeliveryRequestTest, EnumLabelTest
+  - strategy/ — DeliveryCostStrategyTest
+
+  The creature, factory, seal, log, notification, and service packages are all gone. You can now hand-code those
+  yourself from the git history.

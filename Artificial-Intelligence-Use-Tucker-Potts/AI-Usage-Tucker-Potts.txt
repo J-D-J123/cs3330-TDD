@@ -1,0 +1,587 @@
+Brief explanation of use:
+
+I did use AI for this assignment. I only wanted AI as guide to help me through coding the actual program such as the design choices of the program and whether I was going in the right direction in my approaches.
+
+---------------------------------------------------------------------------------------
+Tucker:
+
+Here are both files for a homework assignment I am currently working on. I've started on a skeletal framework for the model and strategy packages and need guidance. Without writing any code for me, I was wondering if EnumLabel should be an interface that should be implemented in the packageType and realmType classes? Am I wrong in my approach?
+
+
+
+AI:
+
+Short answer: your instinct isn’t *wrong*, but it’s probably more complicated than the assignment intends.
+
+Let’s unpack it carefully.
+
+---
+
+### What “EnumLabel” is likely trying to achieve
+
+From the assignment description:
+
+> “Constructor validation, **enum labels**, … are all covered.” 
+
+That strongly suggests:
+
+* Your enums (like `PackageType`, `RealmType`, etc.) are expected to expose some **label** (probably a `String`)
+* Tests are likely checking something like:
+
+  * `getLabel()`
+  * or `toString()` returning a friendly name
+
+---
+
+### Should `EnumLabel` be an interface?
+
+**It *can* be**, but the real question is: *does it actually buy you anything?*
+
+#### When an interface *makes sense*
+
+If:
+
+* Multiple enums share a **common behavior contract** (e.g., `String getLabel()`)
+* AND something in your system treats them **polymorphically**
+
+Example mindset (no code):
+
+* “I want to pass any labeled enum into a method”
+* “I don’t care whether it’s a PackageType or RealmType, I just need a label”
+
+👉 Then yes — an interface like `EnumLabel` is clean and intentional.
+
+---
+
+### When it’s probably overengineering
+
+If:
+
+* The enums are only used **individually**
+* Tests just call `getLabel()` directly on each enum
+* There’s no shared usage across types
+
+👉 Then an interface adds **zero practical value**
+
+At that point, you’re just doing:
+
+> “because it feels like good design”
+
+…but not because the system actually needs it.
+
+---
+
+### What your assignment is *really* pushing you toward
+
+Notice the required patterns:
+
+* Strategy
+* Abstract Factory
+* Singleton
+* Adapter 
+
+No mention of:
+
+* shared enum abstractions
+* or cross-enum polymorphism
+
+👉 That’s a hint:
+your design energy should go toward those patterns, not inventing extra abstraction layers.
+
+---
+
+### A good way to decide (use the tests)
+
+Since this is TDD:
+
+Ask yourself:
+
+* Do tests ever treat different enums the same way?
+* Do tests refer to something like `EnumLabel` explicitly?
+* Do you *need* polymorphism across enums?
+
+If the answer is **no** → skip the interface.
+
+---
+
+### My honest recommendation
+
+* Start simple:
+
+  * Each enum has its own label field + getter
+* Only introduce `EnumLabel` **if you hit duplication that actually matters**
+
+---
+
+### A quick mental rule
+
+> If removing the interface wouldn’t change any behavior or simplify anything → you don’t need it.
+
+---
+
+If you want, you can show me one of the enum-related tests, and I’ll help you reverse-engineer exactly what they expect without giving you the implementation.
+
+
+
+Tucker:
+
+Thanks, looks like packageType and realmType both may have a displayName() method and a label() method, though. Since, there is a label for what it is and a small description of it.
+
+
+
+AI:
+That actually clarifies things a lot—and it *does* make your instinct stronger—but I’d still be careful before committing to an interface.
+
+---
+
+### What you’re describing
+
+Each enum has:
+
+* something like `label()` → short identifier (e.g., `"EXPRESS"`)
+* something like `displayName()` → human-friendly description (e.g., `"Express Delivery"`)
+
+So structurally, yes, both enums share the *same shape*.
+
+---
+
+### The key question (again): do you *need* shared behavior?
+
+Even if they *look the same*, that doesn’t automatically justify an interface.
+
+Ask yourself:
+
+> Is there anywhere in the system that treats `PackageType` and `RealmType` interchangeably?
+
+For example:
+
+* A method like `printLabel(EnumLabel e)`
+* A UI formatter that accepts *any labeled thing*
+* A logging system that doesn’t care which enum it is
+
+👉 If **none of that exists in the tests**, then:
+
+* the similarity is just coincidence
+* not a design requirement
+
+---
+
+### Important distinction (this is where students often over-design)
+
+There are two different ideas:
+
+1. **“These classes look similar”**
+2. **“These classes need to be used the same way”**
+
+Only #2 justifies an interface.
+
+---
+
+### What the tests are probably doing
+
+Given this is TDD:
+
+* Tests likely call:
+
+  * `PackageType.X.label()`
+  * `RealmType.Y.displayName()`
+
+Individually.
+
+Not like:
+
+* `EnumLabel e = ...`
+
+---
+
+### So what should you do?
+
+**Best practical approach:**
+
+Start with:
+
+* each enum independently defines:
+
+  * label
+  * displayName
+
+Then:
+
+* run tests
+* build more of the system
+
+👉 Only introduce `EnumLabel` if you *actually hit a situation where you wish you had it*
+
+---
+
+### When I *would* introduce `EnumLabel`
+
+If later you find something like:
+
+* logging system
+* UI formatter
+* factory output handling
+
+…where you’re repeating logic like:
+
+> “get label from this enum, get label from that enum…”
+
+Then an interface becomes **clean refactoring**, not speculation.
+
+---
+
+### Subtle design tip (this will help your grade)
+
+Your rubric emphasizes:
+
+> “avoid fragile hard-coding” and “meaningful use of patterns” 
+
+It does **not** reward:
+
+* extra abstraction for its own sake
+
+Overengineering can actually hurt readability/maintainability.
+
+---
+
+### Bottom line
+
+* You’re thinking in the *right direction* 👍
+* But right now, it’s **premature abstraction**
+
+👉 Implement the enums directly first
+👉 Add an interface only if the system *demands it*
+
+---
+
+If you want, next step we can sanity-check:
+
+* how your enums should be structured (fields/constructors) based on typical TDD expectations without writing code for you.
+
+
+
+Tucker:
+
+In which case, what purpose would EnumLabel serve? We're supposed to "reverse-engineer" the test cases into an actual program, and one of the test cases involves EnumLabelTest.java.
+
+
+
+AI:
+Ah — that changes things in an important way.
+
+If there is literally a **`EnumLabelTest.java`**, then this is no longer a “maybe useful abstraction.”
+It’s almost certainly something the tests *expect to exist*.
+
+---
+
+### What that implies
+
+In a TDD assignment like this:
+
+> “The test suite is the specification” 
+
+So if a test is named `EnumLabelTest`, that strongly suggests:
+
+* `EnumLabel` is a **required type**
+* Tests are directly referencing it
+* You *must* implement it in some form for the project to compile
+
+---
+
+### So what is its purpose?
+
+Given your earlier observation (`label()` + `displayName()`), the most likely role of `EnumLabel` is:
+
+👉 A **common contract for enums that expose human-readable metadata**
+
+In plain terms:
+
+* It standardizes:
+
+  * “this enum has a label”
+  * “this enum has a display name”
+
+---
+
+### Why the assignment would include this
+
+This is actually reinforcing a core OOP idea:
+
+> Treat different types uniformly through a shared interface
+
+Even if the current system *barely* uses it, the design pattern lesson is:
+
+* Enums can implement interfaces
+* Interfaces define shared behavior across unrelated types
+
+---
+
+### What the tests are probably checking
+
+Without seeing them, I’d expect things like:
+
+* Does `PackageType` implement `EnumLabel`?
+* Does `RealmType` implement `EnumLabel`?
+* Can you call `label()` and `displayName()` through the interface?
+* Maybe even:
+
+  * polymorphic usage (e.g., passing enums as `EnumLabel`)
+
+---
+
+### So your earlier instinct?
+
+> “Should EnumLabel be an interface implemented by packageType and realmType?”
+
+👉 In this context: **yes, that’s very likely exactly what they want**
+
+---
+
+### One subtle design insight (this is the “why” behind it)
+
+This isn’t just about avoiding duplication.
+
+It enables things like:
+
+* generic logging
+* UI formatting
+* consistent labeling across the system
+
+Without caring *which enum it is*
+
+---
+
+### A small warning (important)
+
+Don’t overbuild it.
+
+`EnumLabel` should probably be:
+
+* very small
+* just the shared contract
+
+If you find yourself adding lots of logic to it, you’ve gone too far.
+
+---
+
+### Bottom line
+
+* Because `EnumLabelTest.java` exists → **you should implement `EnumLabel`**
+* And your idea:
+
+  * `PackageType implements EnumLabel`
+  * `RealmType implements EnumLabel`
+
+👉 That’s not just reasonable — it’s almost certainly the intended design.
+
+---
+
+If you want, you can paste the actual `EnumLabelTest` and I’ll help you decode exactly what it’s expecting (that’s usually the fastest way to get unstuck in this assignment).
+
+
+
+Tucker:
+
+That's okay. Thanks. I was actually wondering, are POTION, SKY, etc... supposed to be strings? In one of the tests I see PackageType.POTION. Keep it short
+
+
+
+AI:
+
+No — those are **enum constants**, not strings.
+
+So `PackageType.POTION` means:
+
+* `PackageType` is an `enum`
+* `POTION` is one of its defined values
+
+Think:
+
+* NOT `"POTION"` (a string)
+* BUT a **typed constant** inside the enum
+
+The enum can still *contain* strings internally (like label or displayName), but `POTION` itself is **not a string**.
+
+Tucker:
+We didn't really go over enums in class, is there any other way?
+
+AI:
+Short answer: **not really, at least not if the tests use `PackageType.POTION`.**
+
+That syntax *requires* an `enum`.
+
+---
+
+### Why you can’t easily replace it
+
+If you tried alternatives:
+
+* **Strings** → `"POTION"`
+  ❌ Won’t match `PackageType.POTION`
+
+* **Regular class with objects** → `new PackageType(...)`
+  ❌ Tests won’t call it that way
+
+* **Static constants in a class**
+  You *could* mimic it, but:
+
+  * You’d lose built-in enum features
+  * And tests might rely on enum behavior (`values()`, `valueOf()`, etc.)
+
+---
+
+### The reality for this assignment
+
+Since this is TDD:
+
+> The tests define the design
+
+So if you see:
+
+```
+PackageType.POTION
+```
+
+👉 You are **expected to use an enum**, even if it wasn’t covered much in class.
+
+---
+
+### Good news
+
+Enums are actually pretty simple:
+
+* Think of them as a **fixed set of named objects**
+* They can have:
+
+  * fields
+  * constructors
+  * methods
+
+You already understand 90% of it from the example.
+
+---
+
+### Bottom line
+
+* You *could* hack around it…
+* But you **shouldn’t**, because the tests likely depend on enum behavior
+
+👉 Best move: use enums — they’re the intended solution here.
+
+---
+
+If you want, I can give you a super minimal “mental model” of enums (like 2–3 rules) to make them click quickly.
+
+
+
+Tucker:
+
+I'm having trouble figuring out the purpose of DeliveryCostStrategy, ExpressDeliveryStrategy, and CarefulDeliveryStrategy. Why need it when there is already DeliveryPlan.java, DeliveryRequest.java, etc.? Go through the files.
+
+
+
+AI:
+
+This is a really good question — you’re bumping into the *actual purpose* of the Strategy pattern.
+
+Let’s clear the confusion:
+
+---
+
+### What your instinct is saying
+
+> “Why do we need strategies when we already have `DeliveryPlan`, `DeliveryRequest`, etc.?”
+
+That’s valid — it *feels* redundant at first.
+
+---
+
+### The key separation (this is the whole point)
+
+Think of it like this:
+
+* **`DeliveryRequest`** → *what is being requested*
+  (distance, type, urgency, etc.)
+
+* **`DeliveryPlan`** → *the result*
+  (final cost, creature, seal, etc.)
+
+* **`DeliveryCostStrategy` (+ variants)** → *how the cost is calculated*
+
+---
+
+### Why separate “how” from everything else?
+
+Because the cost logic can change independently.
+
+Instead of doing this (bad design):
+
+```java
+if (type == EXPRESS) { ... }
+else if (type == CAREFUL) { ... }
+```
+
+You delegate:
+
+> “Hey strategy, you decide the cost.”
+
+---
+
+### So what each class is doing
+
+#### `DeliveryCostStrategy`
+
+* The **default pricing algorithm**
+* A valid, usable baseline
+
+#### `ExpressDeliveryStrategy`
+
+* Overrides behavior for faster/more expensive delivery
+
+#### `CarefulDeliveryStrategy`
+
+* Overrides behavior for fragile/special handling
+
+---
+
+### Where they are actually used
+
+Somewhere (likely in a service or planner), you’ll see logic like:
+
+* Choose a strategy based on the request
+* Pass the request into the strategy
+* Get a cost back
+
+👉 That’s the only job of the strategy classes
+
+---
+
+### Why not just put cost logic in `DeliveryPlan`?
+
+Because then `DeliveryPlan` would:
+
+* know about *all* pricing rules
+* become a giant conditional mess
+* violate single responsibility
+
+---
+
+### Mental model (keep this)
+
+> **DeliveryPlan = result**
+> **Strategy = calculator used to produce part of that result**
+
+---
+
+### One sentence summary
+
+The strategies exist so you can **swap out pricing algorithms without changing the rest of the system**.
+
+---
+
+If you want, next we can trace exactly *where* the strategy is likely selected in your project — that’s usually the “aha” moment.
+
+---------------------------------------------------------------------------------------
+Reflection:
+
+Overall, the AI did help. I felt confident that if I had made a mistake along the way that AI would catch it. However, pretty quickly, I realized that it was already trending towards what I believe to be the "wrong" approach with this assignment for the EnumLabel.java. Eventually, I ended up trusting my gut feeling and went with what I thought to be the correct implementation of packageType, realmType, and EnumLabel. It did have some helpful input, regardless. Its input on DeliveryCostStrategy was particularly helpful.

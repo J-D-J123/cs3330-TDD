@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mvn compile:*)",
+      "Bash(ls src/main/java/edu/oop/guild/creature/)",
+      "Bash(ls src/main/java/edu/oop/guild/factory/)",
+      "Bash(ls src/main/java/edu/oop/guild/log/)",
+      "Bash(ls src/main/java/edu/oop/guild/seal/)",
+      "Bash(ls src/main/java/edu/oop/guild/service/)",
+      "Bash(find src/main -name \"*.java\")",
+      "Bash(find src/test -name \"*.java\")",
+      "Bash(mvn test:*)",
+      "Bash(cmd /c \"mvn test\")",
+      "Read(//c/Users/jdjoh/.m2//**)",
+      "Read(//c/Users/jdjoh/AppData//**)"
+    ]
+  }
+}

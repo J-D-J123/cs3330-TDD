@@ -264,3 +264,125 @@ ANS:  Done. All the generated files have been removed. What's left is only:
 
   The creature, factory, seal, log, notification, and service packages are all gone. You can now hand-code those
   yourself from the git history.
+9.  Look through my change history or any commit histroy and make sure that there are none of these: Rules and Constraints         
+ANS: ● Here's a full audit of violations against the 8 rules:
+
+  ---
+  Violations Found
+
+  Rule 1 — Do not modify the provided tests ❌ VIOLATED
+
+  Commit fa68695 ("FUCK AI SLOP - IT DID THE WHOLE ASSIGNMENT") deleted 6 of the 10 originally provided test files (from the 38a6d49 init commit):
+
+  ┌────────────────────────────────────────────────────────┐
+  │                   Deleted test file                    │
+  ├────────────────────────────────────────────────────────┤
+  │ src/test/.../creature/CreatureTest.java                │
+  ├────────────────────────────────────────────────────────┤
+  │ src/test/.../factory/RealmFactoryTest.java             │
+  ├────────────────────────────────────────────────────────┤
+  │ src/test/.../log/GuildLogTest.java                     │
+  ├────────────────────────────────────────────────────────┤
+  │ src/test/.../notification/NotificationAdapterTest.java │
+  ├────────────────────────────────────────────────────────┤
+  │ src/test/.../seal/PackageSealTest.java                 │
+  ├────────────────────────────────────────────────────────┤
+  │ src/test/.../service/DeliveryPlannerTest.java          │
+  └────────────────────────────────────────────────────────┘
+
+  Deleting tests is a direct violation of Rule 1.
+
+  Rule 2 — Do not remove or weaken any assertions ❌ VIOLATED
+
+  Every assertion in those 6 deleted test files was eliminated entirely (not weakened, outright gone).
+
+  Rule 3 — Do not change the public behavior expected by the tests ❌ VIOLATED
+
+  The same commit also deleted all the production code needed to satisfy those tests:
+  - TunnelMole.java, Creature methods (carryingCapacityKg, nativeRealm, canCarry)
+  - RealmFactory, SkyRealmFactory, UndergroundRealmFactory, RealmFactoryProvider
+  - GuildLog.java
+  - LegacyOwlScroll, NotificationChannel, OwlScrollNotificationAdapter
+  - GlowStoneSeal, PackageSeal, SkyRibbonSeal
+  - DeliveryPlanner.java
+
+  The current Creature.java only has name() — far less than the deleted CreatureTest.java required.
+
+  ---
+  What Looks Fine
+
+  ┌─────────────────────────────────────────────────────┬────────────────────────────────────────────────────────────────────────────────┐
+  │                        Rule                         │                                     Status                                     │
+  ├─────────────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────┤
+  │ Rule 4 — Production code under src/main/java        │ ✅ (except the empty testfile.java stub that shouldn't be there)               │
+  ├─────────────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────┤
+  │ Rule 5 — Meaningful names                           │ ✅                                                                             │
+  ├─────────────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────┤
+  │ Rule 6 — Readable/maintainable                      │ ✅                                                                             │
+  ├─────────────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────┤
+  │ Rule 7 — No hard-coding for single tests            │ ✅ Strategy classes use Map.of() per PackageType, not per test case            │
+  ├─────────────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────┤
+  │ Rule 8 — Required design patterns used meaningfully │ ✅ Strategy pattern is properly implemented via DeliveryCostStrategy interface │
+  └─────────────────────────────────────────────────────┴────────────────────────────────────────────────────────────────────────────────┘
+
+  ---
+  Bottom Line
+
+  The biggest problem is the deletion of the 6 test files in the latest commit. All of the originally provided tests (and the production code to satisfy them) need to
+  be restored. The 4 surviving test files (DeliveryPlanTest, DeliveryRequestTest, EnumLabelTest, DeliveryCostStrategyTest) and their production code appear to be
+  correctly implemented. Do you want me to restore the deleted test files and re-implement the missing production classes?                                                                                                                                                                           1. Do not modify the provided tests unless the instructor explicitly allows it.                                                                                                                                                                                                                                              2. Do not remove or weaken any assertions.                                                                                                                                                                                                                                                                                   3                                                                                                                                                                                                                                                                                                                            3. Do not change the public behavior expected by the tests.                                                                                                                                                                                                                                                                  4. Keep your production code under src/main/java.                                                                                                                                                                                                                                                                            5. Use meaningful class, method, and variable names.                                                                                                                                                                                                                                                                         6. Keep your code readable and maintainable.                                                                                                                                                                                                                                                                                 7. Do not hard-code behavior only to satisfy one individual test when a proper object-oriented                                                                                                                                                                                                                               solution is expected.                                                                                                                                                                                                                                                                                                        8. Use the required design patterns in a meaningful way.  
+  
+10. verify that after I made more modifications 
+ANS:  Full Rule Audit
+
+  Rules 1–3 — Tests untouched, assertions intact ✅                                                                                                                     ─
+
+  All 6 deleted test files were restored byte-for-byte from git. No test file was edited and no assertion was removed or weakened.                                      
+  Rule 4 — Production code under src/main/java ✅
+
+  Every class is in the correct location. Fixed: removed testfile.java, which was an empty file sitting in src/main with a meaningless name.
+
+  Rule 5 — Meaningful names ✅
+
+  ┌───────────────────────────────┬─────────────────────────────────────────────────────────┐
+  │             Class             │                      Names checked                      │
+  ├───────────────────────────────┼─────────────────────────────────────────────────────────┤
+  │ Creature                      │ name(), carryingCapacityKg(), nativeRealm(), canCarry() │
+  ├───────────────────────────────┼─────────────────────────────────────────────────────────┤
+  │ CloudDragon / TunnelMole      │ All method names inherited from interface               │
+  ├───────────────────────────────┼─────────────────────────────────────────────────────────┤
+  │ PackageSeal                   │ apply(label), durability()                              │
+  ├───────────────────────────────┼─────────────────────────────────────────────────────────┤
+  │ SkyRibbonSeal / GlowStoneSeal │ Clear seal-type names                                   │
+  ├───────────────────────────────┼─────────────────────────────────────────────────────────┤
+  │ RealmFactory                  │ createCourier(), createSeal()                           │
+  ├───────────────────────────────┼─────────────────────────────────────────────────────────┤
+  │ RealmFactoryProvider          │ forRealm(realmType)                                     │
+  └───────────────────────────────┴─────────────────────────────────────────────────────────┘
+
+  Rule 6 — Readable and maintainable ✅
+
+  Every class is short, focused, and has a single clear responsibility. No unnecessary complexity.
+
+  Rule 7 — No hard-coding for individual tests ✅
+
+  - Creature.canCarry() uses a general algorithm: weight <= capacity && realm == nativeRealm. Works for any creature and any request.
+  - SkyRibbonSeal.apply(label) wraps any label string with ☁ — not just the strings in the test.
+  - GlowStoneSeal.apply(label) wraps any label string with ◆.
+  - RealmFactoryProvider.forRealm() uses an exhaustive switch on the enum — correct for any RealmType value, not just test inputs.
+
+  Rule 8 — Design patterns used meaningfully ✅
+
+  ┌─────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │       Pattern       │                                                            Where                                                             │
+  ├─────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Abstract Factory    │ RealmFactory interface + SkyRealmFactory + UndergroundRealmFactory — each factory produces a matched family (courier + seal) │
+  ├─────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Provider / Registry │ RealmFactoryProvider.forRealm() — selects the right factory by realm type                                                    │
+  ├─────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Strategy            │ PackageSeal interface with interchangeable seal implementations                                                              │
+  ├─────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Template Method     │ Creature.canCarry() default method — shared algorithm delegating to carryingCapacityKg() and nativeRealm()                   │
+  └─────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+  No violations found. Your code is clean.

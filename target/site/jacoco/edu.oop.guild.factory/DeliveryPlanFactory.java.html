@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeliveryPlanFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Enchanted Courier Guild</a> &gt; <a href="index.source.html" class="el_package">edu.oop.guild.factory</a> &gt; <span class="el_source">DeliveryPlanFactory.java</span></div><h1>DeliveryPlanFactory.java</h1><pre class="source lang-java linenums">package edu.oop.guild.factory;
+
+import edu.oop.guild.creature.Creature;
+import edu.oop.guild.model.DeliveryPlan;
+import edu.oop.guild.model.DeliveryRequest;
+import edu.oop.guild.seal.LabelSealer;
+import edu.oop.guild.strategy.DeliveryCostStrategy;
+
+import java.util.Objects;
+
+public class DeliveryPlanFactory {
+    private final Creature courier;
+    private final DeliveryCostStrategy strategy;
+    private final LabelSealer sealer;
+
+<span class="nc" id="L16">    public DeliveryPlanFactory(Creature courier, DeliveryCostStrategy strategy, LabelSealer sealer) {</span>
+<span class="nc" id="L17">        this.courier = Objects.requireNonNull(courier);</span>
+<span class="nc" id="L18">        this.strategy = Objects.requireNonNull(strategy);</span>
+<span class="nc" id="L19">        this.sealer = Objects.requireNonNull(sealer);</span>
+<span class="nc" id="L20">    }</span>
+
+    public DeliveryPlan create(DeliveryRequest request) {
+<span class="nc" id="L23">        Objects.requireNonNull(request);</span>
+<span class="nc" id="L24">        String label = sealer.seal(request);</span>
+<span class="nc" id="L25">        int price = strategy.estimateCoins(request);</span>
+<span class="nc" id="L26">        return new DeliveryPlan(request, courier, label, price);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

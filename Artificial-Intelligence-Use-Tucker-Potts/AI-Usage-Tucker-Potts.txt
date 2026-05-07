@@ -5,7 +5,8 @@ I did use AI for this assignment. I only wanted AI as guide to help me through c
 ---------------------------------------------------------------------------------------
 Tucker:
 
-Here are both files for a homework assignment I am currently working on. I've started on a skeletal framework for the model and strategy packages and need guidance. Without writing any code for me, I was wondering if EnumLabel should be an interface that should be implemented in the packageType and realmType classes? Am I wrong in my approach?
+Here are both files for a homework assignment I am currently working on. I've started on a skeletal framework for the model and strategy packages and need guidance. 
+Without writing any code for me, I was wondering if EnumLabel should be an interface that should be implemented in the packageType and realmType classes? Am I wrong in my approach?
 
 
 
@@ -125,7 +126,8 @@ If you want, you can show me one of the enum-related tests, and I’ll help you 
 
 Tucker:
 
-Thanks, looks like packageType and realmType both may have a displayName() method and a label() method, though. Since, there is a label for what it is and a small description of it.
+Thanks, looks like packageType and realmType both may have a displayName() method and a label() method, though. 
+Since, there is a label for what it is and a small description of it.
 
 
 
@@ -262,7 +264,8 @@ If you want, next step we can sanity-check:
 
 Tucker:
 
-In which case, what purpose would EnumLabel serve? We're supposed to "reverse-engineer" the test cases into an actual program, and one of the test cases involves EnumLabelTest.java.
+In which case, what purpose would EnumLabel serve? 
+We're supposed to "reverse-engineer" the test cases into an actual program, and one of the test cases involves EnumLabelTest.java.
 
 
 
@@ -382,7 +385,8 @@ If you want, you can paste the actual `EnumLabelTest` and I’ll help you decode
 
 Tucker:
 
-That's okay. Thanks. I was actually wondering, are POTION, SKY, etc... supposed to be strings? In one of the tests I see PackageType.POTION. Keep it short
+That's okay. Thanks. I was actually wondering, are POTION, SKY, etc... supposed to be strings? 
+In one of the tests I see PackageType.POTION. Keep it short
 
 
 
@@ -476,7 +480,8 @@ If you want, I can give you a super minimal “mental model” of enums (like 2�
 
 Tucker:
 
-I'm having trouble figuring out the purpose of DeliveryCostStrategy, ExpressDeliveryStrategy, and CarefulDeliveryStrategy. Why need it when there is already DeliveryPlan.java, DeliveryRequest.java, etc.? Go through the files.
+I'm having trouble figuring out the purpose of DeliveryCostStrategy, ExpressDeliveryStrategy, and CarefulDeliveryStrategy. 
+Why need it when there is already DeliveryPlan.java, DeliveryRequest.java, etc.? Go through the files.
 
 
 
@@ -584,4 +589,7 @@ If you want, next we can trace exactly *where* the strategy is likely selected i
 ---------------------------------------------------------------------------------------
 Reflection:
 
-Overall, the AI did help. I felt confident that if I had made a mistake along the way that AI would catch it. However, pretty quickly, I realized that it was already trending towards what I believe to be the "wrong" approach with this assignment for the EnumLabel.java. Eventually, I ended up trusting my gut feeling and went with what I thought to be the correct implementation of packageType, realmType, and EnumLabel. It did have some helpful input, regardless. Its input on DeliveryCostStrategy was particularly helpful.
+Overall, the AI did help. I felt confident that if I had made a mistake along the way that AI would catch it. 
+However, pretty quickly, I realized that it was already trending towards what I believe to be the "wrong" approach with this assignment for the EnumLabel.java. 
+Eventually, I ended up trusting my gut feeling and went with what I thought to be the correct implementation of packageType, realmType, and EnumLabel. 
+It did have some helpful input, regardless. Its input on DeliveryCostStrategy was particularly helpful.

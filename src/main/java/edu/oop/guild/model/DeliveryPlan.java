@@ -1,45 +1,46 @@
 package edu.oop.guild.model;
 
-import edu.oop.guild.creature.Creature;
-
-import java.util.Objects;
-
+/*	File: DeliveryPlan.java
+ * 	Author: Tucker Potts
+ *  Description: This file contains the details about the delivery such as
+ *  who is delivering the package along with the package, its sealed label,
+ *  its price in coins, and its summary of all those things.
+ * 
+ * 
+ */
 public class DeliveryPlan {
-    private final DeliveryRequest request;
-    private final Creature courier;
-    private final String sealedLabel;
-    private final int priceInCoins;
+	private PackageType request;
+	private String courier;
+	private String sealedLabel;
+	private int priceInCoins;
+	private String summary;
+	
+	public DeliveryPlan(PackageType request, String courier, String sealedLabel, int priceInCoins) {
+		this.request = request;
+		this.courier = courier;
+		this.sealedLabel = sealedLabel;
+		this.priceInCoins = priceInCoins;
+		this.summary = courier + " " + sealedLabel + " for " + priceInCoins + " coins";
+	}
 
-    public DeliveryPlan(DeliveryRequest request, Creature courier, String sealedLabel, int priceInCoins) {
-        Objects.requireNonNull(request);
-        Objects.requireNonNull(courier);
-        Objects.requireNonNull(sealedLabel);
-        if (priceInCoins < 0) {
-            throw new IllegalArgumentException("Price cannot be negative");
-        }
-        this.request = request;
-        this.courier = courier;
-        this.sealedLabel = sealedLabel;
-        this.priceInCoins = priceInCoins;
-    }
+	public PackageType getRequest() {
+		return request;
+	}
 
-    public DeliveryRequest getRequest() {
-        return request;
-    }
+	public String getCourier() {
+		return courier;
+	}
 
-    public Creature getCourier() {
-        return courier;
-    }
+	public String getSealedLabel() {
+		return sealedLabel;
+	}
 
-    public String getSealedLabel() {
-        return sealedLabel;
-    }
+	public int getPriceInCoins() {
+		return priceInCoins;
+	}
 
-    public int getPriceInCoins() {
-        return priceInCoins;
-    }
-
-    public String summary() {
-        return courier.name() + " delivers " + sealedLabel + " for " + priceInCoins + " coins";
-    }
+	public String summary() {
+		return summary;
+	}
+	
 }

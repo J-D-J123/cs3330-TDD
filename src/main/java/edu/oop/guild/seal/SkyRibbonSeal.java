@@ -6,6 +6,22 @@ package edu.oop.guild.seal;
  * File:            SkyRibbonSeal.java
  */
 
-public class SkyRibbonSeal {
+import java.util.Objects; 
 
+public class SkyRibbonSeal implements PackageSeal{
+
+	
+	@Override 
+	public String apply(String label) {
+		
+		// make sure that the label is not null
+		Objects.requireNonNull(label); 
+		
+		return "☁ " + label + " ☁";
+	}
+	
+	@Override 
+	public int durability() {
+		return 7; 
+	}
 }

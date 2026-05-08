@@ -1,9 +1,0 @@
-edu\oop\guild\model\EnumLabel.class
-edu\oop\guild\model\RealmType.class
-edu\oop\guild\model\PackageType.class
-edu\oop\guild\strategy\StandardDeliveryStrategy.class
-edu\oop\guild\strategy\CarefulDeliveryStrategy.class
-edu\oop\guild\strategy\DeliveryCostStrategy.class
-edu\oop\guild\strategy\ExpressDeliveryStrategy.class
-edu\oop\guild\model\DeliveryRequest.class
-edu\oop\guild\factory\RealmFactoryProvider$1.class

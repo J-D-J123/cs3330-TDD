@@ -5,29 +5,38 @@ package edu.oop.guild.model;
  *  Description: This file contains the details about the delivery such as
  *  who is delivering the package along with the package, its sealed label,
  *  its price in coins, and its summary of all those things.
- * 
- * 
+ *
+ *
  */
+
+import edu.oop.guild.creature.Creature;
+
+import java.util.Objects;
+
 public class DeliveryPlan {
-	private PackageType request;
-	private String courier;
-	private String sealedLabel;
-	private int priceInCoins;
-	private String summary;
-	
-	public DeliveryPlan(PackageType request, String courier, String sealedLabel, int priceInCoins) {
+	private final DeliveryRequest request;
+	private final Creature courier;
+	private final String sealedLabel;
+	private final int priceInCoins;
+
+	public DeliveryPlan(DeliveryRequest request, Creature courier, String sealedLabel, int priceInCoins) {
+		Objects.requireNonNull(request);
+		Objects.requireNonNull(courier);
+		Objects.requireNonNull(sealedLabel);
+		if (priceInCoins < 0) {
+			throw new IllegalArgumentException("priceInCoins must be non-negative");
+		}
 		this.request = request;
 		this.courier = courier;
 		this.sealedLabel = sealedLabel;
 		this.priceInCoins = priceInCoins;
-		this.summary = courier + " " + sealedLabel + " for " + priceInCoins + " coins";
 	}
 
-	public PackageType getRequest() {
+	public DeliveryRequest getRequest() {
 		return request;
 	}
 
-	public String getCourier() {
+	public Creature getCourier() {
 		return courier;
 	}
 
@@ -40,7 +49,6 @@ public class DeliveryPlan {
 	}
 
 	public String summary() {
-		return summary;
+		return courier.name() + " delivers " + sealedLabel + " for " + priceInCoins + " coins";
 	}
-	
 }

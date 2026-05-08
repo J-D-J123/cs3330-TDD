@@ -1,14 +1,42 @@
 package edu.oop.guild.log;
 
 /**
- * Author:          Joseph Johnson
- * Date:            05/06/2026
+ * Author:          Jack Belleville
+ * Date:            05/07/2026
  * File:            GuildLog.java
- * Desc:            singleton with getInstance(), record(String), size(), entires(), clear() etc...
+ * Desc:            Singleton log of guild delivery activity. Entries are
+ *                  exposed via an unmodifiable view.
  */
 
-public class GuildLog {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
-	
-	// TODO: Joseph
+public class GuildLog {
+	private static final GuildLog INSTANCE = new GuildLog();
+	private final List<String> entries = new ArrayList<>();
+
+	private GuildLog() {}
+
+	public static GuildLog getInstance() {
+		return INSTANCE;
+	}
+
+	public void record(String entry) {
+		Objects.requireNonNull(entry);
+		entries.add(entry);
+	}
+
+	public List<String> entries() {
+		return Collections.unmodifiableList(entries);
+	}
+
+	public int size() {
+		return entries.size();
+	}
+
+	public void clear() {
+		entries.clear();
+	}
 }

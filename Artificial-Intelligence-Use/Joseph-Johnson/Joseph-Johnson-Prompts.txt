@@ -386,3 +386,7 @@ ANS:  Full Rule Audit
   └─────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
   No violations found. Your code is clean.
+  
+Reflection:
+
+I used AI to help me understand where to put the tests and where to edit the main files, it ended up making the whole program so i had to revert it and then code everything again. 
